@@ -1,0 +1,59 @@
+<div class="login-container">
+      <div class="login-card">
+        <div class="login-header">
+          <div class="logo">
+            <span class="logo-icon">📊</span>
+            <h1>WideWorldImporters BI</h1>
+          </div>
+          <p class="subtitle">Business Intelligence Platform</p>
+        </div>
+        
+        <form (ngSubmit)="onLogin()" class="login-form">
+          <div class="form-group">
+            <label class="form-label" for="username">Username</label>
+            <input 
+              type="text" 
+              id="username" 
+              class="form-control"
+              [(ngModel)]="credentials.username"
+              name="username"
+              placeholder="Enter your username"
+              required
+              [class.error]="error"
+            >
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="password">Password</label>
+            <input 
+              type="password" 
+              id="password" 
+              class="form-control"
+              [(ngModel)]="credentials.password"
+              name="password"
+              placeholder="Enter your password"
+              required
+              [class.error]="error"
+            >
+          </div>
+          
+          <div *ngIf="error" class="alert alert-error">
+            {{ error }}
+          </div>
+          
+          <button 
+            type="submit" 
+            class="btn btn-primary login-btn"
+            [disabled]="loading"
+          >
+            <span *ngIf="loading" class="spinner"></span>
+            {{ loading ? 'Signing in...' : 'Sign In' }}
+          </button>
+        </form>
+        
+        <div class="login-footer">
+          <p>Demo Credentials:</p>
+          <p><strong>Admin:</strong> admin / Admin&#64;123</p>
+        </div>
+      </div>
+    </div>

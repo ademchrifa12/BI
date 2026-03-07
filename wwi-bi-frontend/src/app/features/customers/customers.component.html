@@ -1,0 +1,205 @@
+<div class="page-container">
+      <div class="page-header">
+        <div class="header-content">
+          <h1 class="page-title">👥 Customers</h1>
+          <p class="page-subtitle">Manage your customer base</p>
+        </div>
+        <button 
+          *ngIf="isAdmin" 
+          class="btn btn-primary" 
+          (click)="showAddModal = true"
+        >
+          <span>➕</span> Add Customer
+        </button>
+      </div>
+      
+      <!-- Search and Filters -->
+      <div class="filters-bar">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input 
+            type="text" 
+            class="form-control" 
+            placeholder="Search customers..."
+            [(ngModel)]="searchTerm"
+            (input)="onSearch()"
+          >
+        </div>
+        <div class="page-size-selector">
+          <label>Items per page:</label>
+          <select class="form-control" [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+            <option [value]="10">10</option>
+            <option [value]="25">25</option>
+            <option [value]="50">50</option>
+            <option [value]="100">100</option>
+          </select>
+        </div>
+        <div class="filter-info">
+          <span>Showing {{ customers.length }} of {{ totalRecords }} customers</span>
+        </div>
+      </div>
+      
+      <!-- Data Table -->
+      <div class="data-card">
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Customer Name</th>
+                <th>Category</th>
+                <th>City</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th *ngIf="isAdmin">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let customer of customers">
+                <td class="id-cell">{{ customer.customerId }}</td>
+                <td class="name-cell">
+                  <a [routerLink]="['/customers', customer.customerId]" class="link">
+                    {{ customer.customerName }}
+                  </a>
+                </td>
+                <td>
+                  <span class="badge">{{ customer.category }}</span>
+                </td>
+                <td>{{ customer.city }}</td>
+                <td>{{ customer.phoneNumber || '-' }}</td>
+                <td>{{ customer.emailAddress || '-' }}</td>
+                <td *ngIf="isAdmin" class="actions-cell">
+                  <button class="btn-icon" title="Edit" (click)="editCustomer(customer)">✏️</button>
+                  <button class="btn-icon danger" title="Delete" (click)="deleteCustomer(customer)">🗑️</button>
+                </td>
+              </tr>
+              <tr *ngIf="customers.length === 0 && !loading">
+                <td [attr.colspan]="isAdmin ? 7 : 6" class="empty-state">
+                  No customers found
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Pagination -->
+        <div class="pagination">
+          <button 
+            class="btn btn-secondary" 
+            [disabled]="currentPage === 1"
+            (click)="changePage(currentPage - 1)"
+          >
+            ← Previous
+          </button>
+          <span class="page-info">Page {{ currentPage }} of {{ totalPages }}</span>
+          <button 
+            class="btn btn-secondary" 
+            [disabled]="currentPage === totalPages"
+            (click)="changePage(currentPage + 1)"
+          >
+            Next →
+          </button>
+        </div>
+      </div>
+      
+      <!-- Add/Edit Modal -->
+      <div class="modal-overlay" *ngIf="showAddModal || showEditModal" (click)="closeModals()">
+        <div class="modal" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h2>{{ showEditModal ? 'Edit Customer' : 'Add Customer' }}</h2>
+            <button class="modal-close" (click)="closeModals()">✕</button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label class="form-label">Customer Name *</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                [(ngModel)]="customerForm.customerName"
+                placeholder="Enter customer name"
+              >
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Category</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  [(ngModel)]="customerForm.category"
+                  placeholder="Enter category"
+                >
+              </div>
+              <div class="form-group">
+                <label class="form-label">City</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  [(ngModel)]="customerForm.city"
+                  placeholder="Enter city"
+                >
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Phone Number</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  [(ngModel)]="customerForm.phoneNumber"
+                  placeholder="Enter phone"
+                >
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input 
+                  type="email" 
+                  class="form-control" 
+                  [(ngModel)]="customerForm.emailAddress"
+                  placeholder="Enter email"
+                >
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Postal Address</label>
+              <textarea 
+                class="form-control" 
+                [(ngModel)]="customerForm.postalAddress"
+                placeholder="Enter postal address"
+                rows="2"
+              ></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" (click)="closeModals()">Cancel</button>
+            <button class="btn btn-primary" (click)="saveCustomer()" [disabled]="saving">
+              {{ saving ? 'Saving...' : (showEditModal ? 'Update' : 'Create') }}
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Delete Confirmation Modal -->
+      <div class="modal-overlay" *ngIf="showDeleteModal" (click)="showDeleteModal = false">
+        <div class="modal modal-sm" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h2>Confirm Delete</h2>
+            <button class="modal-close" (click)="showDeleteModal = false">✕</button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to delete <strong>{{ selectedCustomer?.customerName }}</strong>?</p>
+            <p class="text-muted">This action cannot be undone.</p>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" (click)="showDeleteModal = false">Cancel</button>
+            <button class="btn btn-danger" (click)="confirmDelete()" [disabled]="saving">
+              {{ saving ? 'Deleting...' : 'Delete' }}
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Loading State -->
+      <div *ngIf="loading" class="loading-overlay">
+        <div class="spinner"></div>
+      </div>
+    </div>

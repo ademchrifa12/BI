@@ -1,0 +1,133 @@
+<div class="page-container">
+      <div class="page-header">
+        <a routerLink="/orders" class="back-link">← Back to Orders</a>
+        <h1 class="page-title">🛒 Order Details</h1>
+      </div>
+      
+      <div *ngIf="order" class="detail-grid">
+        <!-- Order Info Card -->
+        <div class="detail-card">
+          <div class="card-header">
+            <h2 class="card-title">Order #{{ order.orderId }}</h2>
+            <span class="badge" [class.success]="order.isFinalized" [class.pending]="!order.isFinalized">
+              {{ order.isFinalized ? 'Finalized' : 'Pending' }}
+            </span>
+          </div>
+          <div class="card-body">
+            <div class="info-grid">
+              <div class="info-item">
+                <span class="info-label">Customer</span>
+                <span class="info-value">
+                  <a [routerLink]="['/customers', order.customerId]" class="link">
+                    {{ order.customerName }}
+                  </a>
+                </span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Salesperson</span>
+                <span class="info-value">{{ order.salespersonName }}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Order Date</span>
+                <span class="info-value">{{ order.orderDate | date:'fullDate' }}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Expected Delivery</span>
+                <span class="info-value">{{ order.expectedDeliveryDate | date:'fullDate' }}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Total Items</span>
+                <span class="info-value">{{ order.totalItems }}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Picked By</span>
+                <span class="info-value">{{ order.pickedByPersonName || 'Not assigned' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Summary Card -->
+        <div class="detail-card summary-card">
+          <div class="card-header">
+            <h2 class="card-title">Summary</h2>
+          </div>
+          <div class="card-body">
+            <div class="summary-item">
+              <span class="summary-label">Total Items</span>
+              <span class="summary-value">{{ order.totalItems }}</span>
+            </div>
+            <div class="summary-item highlight">
+              <span class="summary-label">Status</span>
+              <span class="summary-value" [class.success]="order.isFinalized">
+                {{ order.isFinalized ? '✓ Completed' : '⏳ In Progress' }}
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Order Timeline -->
+        <div class="detail-card full-width">
+          <div class="card-header">
+            <h2 class="card-title">Order Timeline</h2>
+          </div>
+          <div class="card-body">
+            <div class="timeline">
+              <div class="timeline-item completed">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                  <span class="timeline-title">Order Placed</span>
+                  <span class="timeline-date">{{ order.orderDate | date:'medium' }}</span>
+                </div>
+              </div>
+              <div class="timeline-item" [class.completed]="order.isFinalized">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                  <span class="timeline-title">Expected Delivery</span>
+                  <span class="timeline-date">{{ order.expectedDeliveryDate | date:'medium' }}</span>
+                </div>
+              </div>
+              <div class="timeline-item" [class.completed]="order.isFinalized">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                  <span class="timeline-title">{{ order.isFinalized ? 'Order Completed' : 'Awaiting Completion' }}</span>
+                  <span class="timeline-date" *ngIf="order.isFinalized">Order has been finalized</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Customer Actions -->
+        <div class="detail-card full-width">
+          <div class="card-header">
+            <h2 class="card-title">Related Actions</h2>
+          </div>
+          <div class="card-body">
+            <div class="actions-row">
+              <a [routerLink]="['/customers', order.customerId]" class="action-button">
+                <span class="action-icon">👤</span>
+                <span class="action-text">View Customer</span>
+              </a>
+              <a routerLink="/invoices" class="action-button">
+                <span class="action-icon">🧾</span>
+                <span class="action-text">View Invoices</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Loading State -->
+      <div *ngIf="loading" class="loading-container">
+        <div class="spinner"></div>
+        <span>Loading order details...</span>
+      </div>
+      
+      <!-- Not Found State -->
+      <div *ngIf="!loading && !order" class="not-found">
+        <h2>Order Not Found</h2>
+        <p>The order you're looking for doesn't exist.</p>
+        <a routerLink="/orders" class="btn btn-primary">Back to Orders</a>
+      </div>
+    </div>

@@ -1,0 +1,235 @@
+<div class="page-container">
+      <div class="page-header">
+        <div class="header-content">
+          <h1 class="page-title">🛒 Orders</h1>
+          <p class="page-subtitle">Sales order management</p>
+        </div>
+        <button 
+          *ngIf="isAdmin" 
+          class="btn btn-primary" 
+          (click)="showAddModal = true"
+        >
+          <span>➕</span> Add Order
+        </button>
+      </div>
+      
+      <!-- Filters -->
+      <div class="filters-bar">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input 
+            type="text" 
+            class="form-control" 
+            placeholder="Search by customer..."
+            [(ngModel)]="customerName"
+            (input)="onSearch()"
+          >
+        </div>
+        <div class="date-filters">
+          <input 
+            type="date" 
+            class="form-control date-input"
+            [(ngModel)]="dateFrom"
+            (change)="applyFilters()"
+          >
+          <span>to</span>
+          <input 
+            type="date" 
+            class="form-control date-input"
+            [(ngModel)]="dateTo"
+            (change)="applyFilters()"
+          >
+        </div>
+        <div class="page-size-selector">
+          <label>Items per page:</label>
+          <select class="form-control" [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+            <option [value]="10">10</option>
+            <option [value]="25">25</option>
+            <option [value]="50">50</option>
+            <option [value]="100">100</option>
+          </select>
+        </div>
+        <div class="filter-info">
+          <span>Showing {{ orders.length }} of {{ totalRecords }} orders</span>
+        </div>
+      </div>
+      
+      <!-- Data Table -->
+      <div class="data-card">
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Salesperson</th>
+                <th>Order Date</th>
+                <th>Expected Delivery</th>
+                <th>Items</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let order of orders">
+                <td class="id-cell">{{ order.orderId }}</td>
+                <td>
+                  <a [routerLink]="['/customers', order.customerId]" class="link">
+                    {{ order.customerName }}
+                  </a>
+                </td>
+                <td>{{ order.salespersonName }}</td>
+                <td>{{ order.orderDate | date:'mediumDate' }}</td>
+                <td>{{ order.expectedDeliveryDate | date:'mediumDate' }}</td>
+                <td class="center">{{ order.totalItems }}</td>
+                <td>
+                  <span class="badge" [class.success]="order.isFinalized" [class.pending]="!order.isFinalized">
+                    {{ order.isFinalized ? 'Finalized' : 'Pending' }}
+                  </span>
+                </td>
+                <td class="actions-cell">
+                  <a [routerLink]="['/orders', order.orderId]" class="btn-link">View →</a>
+                  <button *ngIf="isAdmin" class="btn-icon" title="Edit" (click)="editOrder(order)">✏️</button>
+                  <button *ngIf="isAdmin" class="btn-icon danger" title="Delete" (click)="deleteOrder(order)">🗑️</button>
+                </td>
+              </tr>
+              <tr *ngIf="orders.length === 0 && !loading">
+                <td colspan="8" class="empty-state">
+                  No orders found
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Pagination -->
+        <div class="pagination">
+          <button 
+            class="btn btn-secondary" 
+            [disabled]="currentPage === 1"
+            (click)="changePage(currentPage - 1)"
+          >
+            ← Previous
+          </button>
+          <span class="page-info">Page {{ currentPage }} of {{ totalPages }}</span>
+          <button 
+            class="btn btn-secondary" 
+            [disabled]="currentPage === totalPages"
+            (click)="changePage(currentPage + 1)"
+          >
+            Next →
+          </button>
+        </div>
+      </div>
+      
+      <!-- Loading State -->
+      <div *ngIf="loading" class="loading-overlay">
+        <div class="spinner"></div>
+      </div>
+      
+      <!-- Add/Edit Modal -->
+      <div class="modal-overlay" *ngIf="showAddModal || showEditModal" (click)="closeModals()">
+        <div class="modal" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h2>{{ showEditModal ? 'Edit Order' : 'Add Order' }}</h2>
+            <button class="modal-close" (click)="closeModals()">✕</button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label class="form-label">Customer *</label>
+              <select class="form-control" [(ngModel)]="orderForm.customerId">
+                <option value="">Select a customer</option>
+                <option *ngFor="let customer of customers" [value]="customer.customerId">
+                  {{ customer.customerName }}
+                </option>
+              </select>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Order Date *</label>
+                <input 
+                  type="date" 
+                  class="form-control" 
+                  [(ngModel)]="orderForm.orderDate"
+                >
+              </div>
+              <div class="form-group">
+                <label class="form-label">Expected Delivery Date</label>
+                <input 
+                  type="date" 
+                  class="form-control" 
+                  [(ngModel)]="orderForm.expectedDeliveryDate"
+                >
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Customer PO Number</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                [(ngModel)]="orderForm.customerPurchaseOrderNumber"
+                placeholder="Enter PO number"
+              >
+            </div>
+            <div class="form-group">
+              <label class="form-label">Comments</label>
+              <textarea 
+                class="form-control" 
+                [(ngModel)]="orderForm.comments"
+                placeholder="Enter comments"
+                rows="3"
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Delivery Instructions</label>
+              <textarea 
+                class="form-control" 
+                [(ngModel)]="orderForm.deliveryInstructions"
+                placeholder="Enter delivery instructions"
+                rows="2"
+              ></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group checkbox">
+                <label>
+                  <input type="checkbox" [(ngModel)]="orderForm.isUndersupplyBackordered">
+                  Allow Undersupply Backorder
+                </label>
+              </div>
+              <div *ngIf="showEditModal" class="form-group checkbox">
+                <label>
+                  <input type="checkbox" [(ngModel)]="orderForm.isPickingCompleted">
+                  Mark as Picking Completed
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" (click)="closeModals()" [disabled]="saving">Cancel</button>
+            <button class="btn btn-primary" (click)="saveOrder()" [disabled]="saving">
+              {{ saving ? 'Saving...' : 'Save Order' }}
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Delete Confirmation Modal -->
+      <div class="modal-overlay" *ngIf="showDeleteModal" (click)="showDeleteModal = false">
+        <div class="modal modal-sm" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h2>Delete Order</h2>
+            <button class="modal-close" (click)="showDeleteModal = false">✕</button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to delete this order? This action cannot be undone.</p>
+            <p class="text-muted" *ngIf="selectedOrder">Order #{{ selectedOrder.orderId }} - {{ selectedOrder.customerName }}</p>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" (click)="showDeleteModal = false" [disabled]="saving">Cancel</button>
+            <button class="btn btn-danger" (click)="confirmDelete()" [disabled]="saving">
+              {{ saving ? 'Deleting...' : 'Delete' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>

@@ -1,0 +1,121 @@
+<div class="page-container">
+      <div class="page-header">
+        <a routerLink="/customers" class="back-link">← Back to Customers</a>
+        <h1 class="page-title">👤 Customer Details</h1>
+      </div>
+      
+      <div *ngIf="customer" class="detail-grid">
+        <!-- Customer Info Card -->
+        <div class="detail-card">
+          <div class="card-header">
+            <h2 class="card-title">Customer Information</h2>
+          </div>
+          <div class="card-body">
+            <div class="info-grid">
+              <div class="info-item">
+                <span class="info-label">Customer ID</span>
+                <span class="info-value">{{ customer.customerId }}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Customer Name</span>
+                <span class="info-value">{{ customer.customerName }}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Category</span>
+                <span class="info-value">
+                  <span class="badge">{{ customer.category }}</span>
+                </span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">City</span>
+                <span class="info-value">{{ customer.city }}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Phone Number</span>
+                <span class="info-value">{{ customer.phoneNumber || '-' }}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Email Address</span>
+                <span class="info-value">{{ customer.emailAddress || '-' }}</span>
+              </div>
+              <div class="info-item full-width">
+                <span class="info-label">Postal Address</span>
+                <span class="info-value">{{ customer.postalAddress || '-' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Customer Stats -->
+        <div class="detail-card stats-card">
+          <div class="card-header">
+            <h2 class="card-title">Summary</h2>
+          </div>
+          <div class="card-body">
+            <div class="stat-items">
+              <div class="stat-item">
+                <span class="stat-value">{{ customer.totalOrders || 0 }}</span>
+                <span class="stat-label">Total Orders</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">{{ formatCurrency(customer.totalSales || 0) }}</span>
+                <span class="stat-label">Total Sales</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Recent Orders -->
+        <div class="detail-card full-width">
+          <div class="card-header">
+            <h2 class="card-title">Recent Orders</h2>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive" *ngIf="customer.recentOrders && customer.recentOrders.length > 0">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Order Date</th>
+                    <th>Expected Delivery</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let order of customer.recentOrders">
+                    <td class="id-cell">{{ order.orderId }}</td>
+                    <td>{{ order.orderDate | date:'mediumDate' }}</td>
+                    <td>{{ order.expectedDeliveryDate | date:'mediumDate' }}</td>
+                    <td>
+                      <span class="badge" [class.success]="order.isFinalized">
+                        {{ order.isFinalized ? 'Finalized' : 'Pending' }}
+                      </span>
+                    </td>
+                    <td>
+                      <a [routerLink]="['/orders', order.orderId]" class="btn-link">View →</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div *ngIf="!customer.recentOrders || customer.recentOrders.length === 0" class="empty-state">
+              No recent orders found
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Loading State -->
+      <div *ngIf="loading" class="loading-container">
+        <div class="spinner"></div>
+        <span>Loading customer details...</span>
+      </div>
+      
+      <!-- Not Found State -->
+      <div *ngIf="!loading && !customer" class="not-found">
+        <h2>Customer Not Found</h2>
+        <p>The customer you're looking for doesn't exist.</p>
+        <a routerLink="/customers" class="btn btn-primary">Back to Customers</a>
+      </div>
+    </div>

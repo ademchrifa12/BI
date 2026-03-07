@@ -1,0 +1,72 @@
+# Build results
+bin/
+obj/
+*.dll
+*.exe
+*.so
+*.dylib
+*.o
+
+# Visual Studio
+.vs/
+.vscode/
+*.user
+*.suo
+*.sln.docstates
+*.userprefs
+
+# ReSharper
+.idea/
+*.resharper
+*.resharper.user
+*.DotSettings.user
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+
+# Entity Framework migrations (optional - uncomment if you want to ignore)
+# Migrations/
+
+# Local environment files
+appsettings.local.json
+appsettings.*.json
+!appsettings.*.example.json
+
+# Logs
+*.log
+logs/
+
+# Database files
+*.mdf
+*.ldf
+*.ndf
+
+# User-specific files
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Node modules (if any Node tools are used)
+node_modules/
+npm-debug.log
+
+# Build output
+dist/
+build/
+
+# Coverage
+coverage/
+.coverage
+
+# IDE
+*.code-workspace
+.editorconfig
+
+# Temp files
+tmp/
+temp/
+*.tmp

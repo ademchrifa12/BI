@@ -1,0 +1,94 @@
+<div class="dashboard-container">
+      <!-- KPI Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-icon sales">💰</div>
+          <div class="kpi-content">
+            <span class="kpi-value">{{ formatCurrency(kpis?.totalRevenue || 0) }}</span>
+            <span class="kpi-label">Total Revenue</span>
+          </div>
+        </div>
+        
+        <div class="kpi-card">
+          <div class="kpi-icon orders">🛒</div>
+          <div class="kpi-content">
+            <span class="kpi-value">{{ formatNumber(kpis?.totalTransactions || 0) }}</span>
+            <span class="kpi-label">Transactions</span>
+          </div>
+        </div>
+        
+        <div class="kpi-card">
+          <div class="kpi-icon customers">👥</div>
+          <div class="kpi-content">
+            <span class="kpi-value">{{ formatNumber(kpis?.uniqueClients || 0) }}</span>
+            <span class="kpi-label">Clients</span>
+          </div>
+        </div>
+        
+        <div class="kpi-card">
+          <div class="kpi-icon products">📦</div>
+          <div class="kpi-content">
+            <span class="kpi-value">{{ formatNumber(kpis?.uniqueProducts || 0) }}</span>
+            <span class="kpi-label">Products</span>
+          </div>
+        </div>
+        
+        <div class="kpi-card">
+          <div class="kpi-icon avg">📊</div>
+          <div class="kpi-content">
+            <span class="kpi-value">{{ formatCurrency(kpis?.averageTransactionValue || 0) }}</span>
+            <span class="kpi-label">Avg Transaction</span>
+          </div>
+        </div>
+        
+        <div class="kpi-card">
+          <div class="kpi-icon invoices">📈</div>
+          <div class="kpi-content">
+            <span class="kpi-value">{{ (kpis?.profitMarginPercent || 0).toFixed(1) }}%</span>
+            <span class="kpi-label">Profit Margin</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Charts Row 1 -->
+      <div class="charts-row">
+        <div class="chart-card full-width">
+          <div class="card-header">
+            <h3 class="card-title">Sales by Employee</h3>
+            <span class="card-subtitle">Revenue by salesperson</span>
+          </div>
+          <div class="chart-container">
+            <canvas #salesByEmployeeChart></canvas>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Charts Row 2 -->
+      <div class="charts-row two-columns">
+        <div class="chart-card">
+          <div class="card-header">
+            <h3 class="card-title">Top 10 Products</h3>
+            <span class="card-subtitle">By sales revenue</span>
+          </div>
+          <div class="chart-container">
+            <canvas #salesByProductChart></canvas>
+          </div>
+        </div>
+        
+        <div class="chart-card">
+          <div class="card-header">
+            <h3 class="card-title">Top 10 Customers</h3>
+            <span class="card-subtitle">By total purchases</span>
+          </div>
+          <div class="chart-container">
+            <canvas #salesByCustomerChart></canvas>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Loading State -->
+      <div *ngIf="loading" class="loading-overlay">
+        <div class="spinner"></div>
+        <span>Loading dashboard...</span>
+      </div>
+    </div>

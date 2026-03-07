@@ -1,0 +1,129 @@
+<div class="page-container">
+      <div class="page-header">
+        <a routerLink="/invoices" class="back-link">← Back to Invoices</a>
+        <h1 class="page-title">🧾 Invoice Details</h1>
+      </div>
+      
+      <div *ngIf="invoice" class="detail-grid">
+        <!-- Invoice Info Card -->
+        <div class="detail-card">
+          <div class="card-header">
+            <h2 class="card-title">Invoice #{{ invoice.invoiceId }}</h2>
+            <span class="badge" [class.success]="invoice.isConfirmed" [class.pending]="!invoice.isConfirmed">
+              {{ invoice.isConfirmed ? 'Confirmed' : 'Pending' }}
+            </span>
+          </div>
+          <div class="card-body">
+            <div class="info-grid">
+              <div class="info-item">
+                <span class="info-label">Customer</span>
+                <span class="info-value">
+                  <a [routerLink]="['/customers', invoice.customerId]" class="link">
+                    {{ invoice.customerName }}
+                  </a>
+                </span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Bill To</span>
+                <span class="info-value">{{ invoice.billToCustomerName }}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Invoice Date</span>
+                <span class="info-value">{{ invoice.invoiceDate | date:'fullDate' }}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Order ID</span>
+                <span class="info-value">
+                  <a *ngIf="invoice.orderId" [routerLink]="['/orders', invoice.orderId]" class="link">
+                    #{{ invoice.orderId }}
+                  </a>
+                  <span *ngIf="!invoice.orderId">N/A</span>
+                </span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Salesperson</span>
+                <span class="info-value">{{ invoice.salespersonName }}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Delivery Method</span>
+                <span class="info-value">{{ invoice.deliveryMethod || 'Standard' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Summary Card -->
+        <div class="detail-card summary-card">
+          <div class="card-header">
+            <h2 class="card-title">Summary</h2>
+          </div>
+          <div class="card-body">
+            <div class="summary-item">
+              <span class="summary-label">Total Lines</span>
+              <span class="summary-value">{{ invoice.totalLines }}</span>
+            </div>
+            <div class="summary-item highlight">
+              <span class="summary-label">Total Amount</span>
+              <span class="summary-value success">{{ formatCurrency(invoice.totalAmount) }}</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Invoice Lines -->
+        <div class="detail-card full-width">
+          <div class="card-header">
+            <h2 class="card-title">Invoice Lines</h2>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive" *ngIf="invoice.invoiceLines && invoice.invoiceLines.length > 0">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Line ID</th>
+                    <th>Description</th>
+                    <th class="right">Quantity</th>
+                    <th class="right">Unit Price</th>
+                    <th class="right">Tax Rate</th>
+                    <th class="right">Tax Amount</th>
+                    <th class="right">Line Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let line of invoice.invoiceLines">
+                    <td class="id-cell">{{ line.invoiceLineId }}</td>
+                    <td>{{ line.description }}</td>
+                    <td class="right">{{ line.quantity }}</td>
+                    <td class="right">{{ formatCurrency(line.unitPrice) }}</td>
+                    <td class="right">{{ line.taxRate }}%</td>
+                    <td class="right">{{ formatCurrency(line.taxAmount) }}</td>
+                    <td class="right amount-cell">{{ formatCurrency(line.lineProfit + line.taxAmount) }}</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="6" class="right"><strong>Total:</strong></td>
+                    <td class="right amount-cell"><strong>{{ formatCurrency(invoice.totalAmount) }}</strong></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+            <div *ngIf="!invoice.invoiceLines || invoice.invoiceLines.length === 0" class="empty-state">
+              No invoice lines found
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Loading State -->
+      <div *ngIf="loading" class="loading-container">
+        <div class="spinner"></div>
+        <span>Loading invoice details...</span>
+      </div>
+      
+      <!-- Not Found State -->
+      <div *ngIf="!loading && !invoice" class="not-found">
+        <h2>Invoice Not Found</h2>
+        <p>The invoice you're looking for doesn't exist.</p>
+        <a routerLink="/invoices" class="btn btn-primary">Back to Invoices</a>
+      </div>
+    </div>
