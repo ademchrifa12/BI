@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: '/api',
+  apiUrl: 'https://bi.tunibyte.com/api',
   firebase: {
     apiKey: 'AIzaSyB_EyWMex9EtEeae2YbdU5MTIl3_aOtimM',
     authDomain: 'biproject-a28a5.firebaseapp.com',

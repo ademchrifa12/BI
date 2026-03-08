@@ -133,7 +133,9 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins(
             "http://localhost:4200",
-            "https://localhost:4200"
+            "https://localhost:4200",
+            "https://bi.tunibyte.com",
+            "http://bi.tunibyte.com"
         )
         .AllowAnyMethod()
         .AllowAnyHeader()
@@ -262,7 +264,11 @@ app.UseExceptionHandler(errorApp =>
     });
 });
 
-app.UseHttpsRedirection();
+// Only redirect to HTTPS in development (nginx handles SSL in production)
+if (app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 // CORS must come before authentication
 app.UseCors("AllowAngular");

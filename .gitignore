@@ -1,0 +1,77 @@
+# =============================================================================
+# .NET Backend
+# =============================================================================
+
+# Build results
+**/bin/
+**/obj/
+publish/
+
+# Binaries
+*.dll
+*.exe
+*.pdb
+*.so
+*.dylib
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.sln.docstates
+
+# ReSharper
+.idea/
+*.DotSettings.user
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+
+# User secrets
+**/appsettings.Development.json
+**/appsettings.Production.json
+
+# Firebase credentials
+firebase-service-account.json
+
+# =============================================================================
+# Angular Frontend
+# =============================================================================
+
+node_modules/
+dist/
+.angular/
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# Lock files
+package-lock.json
+yarn.lock
+
+# Build / Coverage
+build/
+coverage/
+out-tsc/
+tmp/
+
+# =============================================================================
+# IDE / OS
+# =============================================================================
+
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+*.code-workspace
+
+# =============================================================================
+# Deployment
+# =============================================================================
+
+nginx-bi.conf
