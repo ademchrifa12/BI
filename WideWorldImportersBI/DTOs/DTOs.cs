@@ -72,6 +72,67 @@ public class UserDto
     public DateTime? LastLoginAt { get; set; }
 }
 
+/// <summary>
+/// DTO for creating a user (admin)
+/// </summary>
+public class CreateUserDto
+{
+    [Required(ErrorMessage = "Username is required")]
+    [StringLength(100)]
+    public string Username { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Email is required")]
+    [EmailAddress]
+    [StringLength(256)]
+    public string Email { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Password is required")]
+    [StringLength(100, MinimumLength = 6)]
+    public string Password { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "First name is required")]
+    [StringLength(100)]
+    public string FirstName { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Last name is required")]
+    [StringLength(100)]
+    public string LastName { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Role is required")]
+    public string Role { get; set; } = "User";
+}
+
+/// <summary>
+/// DTO for updating a user (admin)
+/// </summary>
+public class UpdateUserDto
+{
+    [Required(ErrorMessage = "Username is required")]
+    [StringLength(100)]
+    public string Username { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Email is required")]
+    [EmailAddress]
+    [StringLength(256)]
+    public string Email { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "First name is required")]
+    [StringLength(100)]
+    public string FirstName { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Last name is required")]
+    [StringLength(100)]
+    public string LastName { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Role is required")]
+    public string Role { get; set; } = "User";
+
+    public bool IsActive { get; set; } = true;
+
+    [StringLength(100, MinimumLength = 6)]
+    public string? Password { get; set; }
+}
+
 #endregion
 
 #region Customer DTOs

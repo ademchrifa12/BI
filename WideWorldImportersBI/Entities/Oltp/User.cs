@@ -39,6 +39,10 @@ public class User
     [Column("LastName")]
     public string LastName { get; set; } = string.Empty;
 
+    [MaxLength(128)]
+    [Column("FirebaseUid")]
+    public string? FirebaseUid { get; set; }
+
     [Column("IsActive")]
     public bool IsActive { get; set; } = true;
 

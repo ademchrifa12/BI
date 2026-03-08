@@ -4,39 +4,26 @@ namespace WideWorldImportersBI.Services;
 
 /// <summary>
 /// Interface for authentication service
-/// Handles user authentication, registration, and JWT token management
+/// Handles Firebase token verification and user session management
 /// </summary>
 public interface IAuthService
 {
-    /// <summary>
-    /// Authenticates a user and returns a JWT token
-    /// </summary>
-    Task<AuthResponseDto> LoginAsync(LoginRequestDto request);
-
-    /// <summary>
-    /// Registers a new user
-    /// </summary>
-    Task<AuthResponseDto> RegisterAsync(RegisterRequestDto request);
-
-    /// <summary>
-    /// Gets user by ID
-    /// </summary>
+    Task<AuthResponseDto> LoginWithFirebaseAsync(string firebaseIdToken);
     Task<UserDto?> GetUserByIdAsync(int userId);
-
-    /// <summary>
-    /// Gets user by username
-    /// </summary>
     Task<UserDto?> GetUserByUsernameAsync(string username);
-
-    /// <summary>
-    /// Validates a JWT token
-    /// </summary>
-    Task<bool> ValidateTokenAsync(string token);
-
-    /// <summary>
-    /// Changes user password
-    /// </summary>
     Task<bool> ChangePasswordAsync(int userId, string currentPassword, string newPassword);
+}
+
+/// <summary>
+/// Interface for user management service (admin)
+/// </summary>
+public interface IUserManagementService
+{
+    Task<IEnumerable<UserDto>> GetAllUsersAsync();
+    Task<UserDto?> GetUserByIdAsync(int userId);
+    Task<UserDto> CreateUserAsync(CreateUserDto dto);
+    Task<UserDto?> UpdateUserAsync(int userId, UpdateUserDto dto);
+    Task<bool> DeleteUserAsync(int userId);
 }
 
 /// <summary>

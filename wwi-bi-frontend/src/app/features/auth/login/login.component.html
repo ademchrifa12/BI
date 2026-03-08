@@ -10,14 +10,14 @@
         
         <form (ngSubmit)="onLogin()" class="login-form">
           <div class="form-group">
-            <label class="form-label" for="username">Username</label>
+            <label class="form-label" for="email">Email</label>
             <input 
-              type="text" 
-              id="username" 
+              type="email" 
+              id="email" 
               class="form-control"
               [(ngModel)]="credentials.username"
               name="username"
-              placeholder="Enter your username"
+              placeholder="Enter your email"
               required
               [class.error]="error"
             >
@@ -52,8 +52,7 @@
         </form>
         
         <div class="login-footer">
-          <p>Demo Credentials:</p>
-          <p><strong>Admin:</strong> admin / Admin&#64;123</p>
+          <p>Sign in with your Firebase account</p>
         </div>
       </div>
     </div>

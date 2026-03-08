@@ -79,4 +79,20 @@ public class UserRepository : Repository<User>, IUserRepository
             user.LastLoginAt = DateTime.UtcNow;
         }
     }
+
+    public async Task<User?> GetByFirebaseUidAsync(string firebaseUid)
+    {
+        return await _dbSet
+            .Include(u => u.Role)
+            .FirstOrDefaultAsync(u => u.FirebaseUid == firebaseUid);
+    }
+
+    public async Task<IEnumerable<User>> GetAllWithRolesAsync()
+    {
+        return await _dbSet
+            .Include(u => u.Role)
+            .OrderBy(u => u.Username)
+            .AsNoTracking()
+            .ToListAsync();
+    }
 }

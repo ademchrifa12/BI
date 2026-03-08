@@ -19,13 +19,8 @@
     "@angular/platform-browser-dynamic": "^17.0.0",
     "@angular/router": "^17.0.0",
     "chart.js": "^4.4.1",
-<<<<<<< HEAD
-    "ng": "^0.0.0",
+    "firebase": "^12.10.0",
     "rxjs": "~7.8.0",
-    "serve": "^14.2.5",
-=======
-    "rxjs": "~7.8.0",
->>>>>>> e0c41a82d9450e8d9bdee183b1ad181ebf987054
     "tslib": "^2.3.0",
     "zone.js": "~0.14.0"
   },

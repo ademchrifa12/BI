@@ -15,6 +15,10 @@ export class NavbarComponent {
     return this.authService.currentUser();
   }
 
+  get isAdmin() {
+    return this.authService.isAdmin();
+  }
+
   constructor(private authService: AuthService) {}
 
   getUserInitials(): string {

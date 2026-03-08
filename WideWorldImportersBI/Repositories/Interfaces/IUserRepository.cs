@@ -52,4 +52,14 @@ public interface IUserRepository : IRepository<User>
     /// Updates the last login timestamp
     /// </summary>
     Task UpdateLastLoginAsync(int userId);
+
+    /// <summary>
+    /// Gets a user by Firebase UID
+    /// </summary>
+    Task<User?> GetByFirebaseUidAsync(string firebaseUid);
+
+    /// <summary>
+    /// Gets all users with their roles
+    /// </summary>
+    Task<IEnumerable<User>> GetAllWithRolesAsync();
 }

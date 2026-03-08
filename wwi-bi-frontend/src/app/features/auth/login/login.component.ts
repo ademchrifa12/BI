@@ -13,7 +13,7 @@ import { AuthService } from '../../../../services/auth.service';
 })
 export class LoginComponent {
   credentials = {
-    username: '',
+    username: '',  // This is the email for Firebase
     password: ''
   };
   loading = false;
@@ -25,10 +25,8 @@ export class LoginComponent {
     private router: Router,
     private route: ActivatedRoute
   ) {
-    // Get return URL from route parameters
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
-    
-    // Redirect if already logged in
+
     if (this.authService.isAuthenticated()) {
       this.router.navigate([this.returnUrl]);
     }
@@ -36,7 +34,7 @@ export class LoginComponent {
 
   onLogin(): void {
     if (!this.credentials.username || !this.credentials.password) {
-      this.error = 'Please enter username and password';
+      this.error = 'Please enter email and password';
       return;
     }
 
@@ -54,7 +52,7 @@ export class LoginComponent {
       },
       error: (err) => {
         this.loading = false;
-        this.error = err.error?.message || 'An error occurred during login';
+        this.error = err.error?.message || err.message || 'An error occurred during login';
       }
     });
   }

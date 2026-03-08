@@ -1,16 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-<<<<<<< HEAD
-    <TargetFramework>net10.0</TargetFramework>
-=======
     <TargetFramework>net8.0</TargetFramework>
->>>>>>> e0c41a82d9450e8d9bdee183b1ad181ebf987054
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FirebaseAdmin" Version="3.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
@@ -20,11 +17,7 @@
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
-<<<<<<< HEAD
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.0" />
-=======
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.3" />
->>>>>>> e0c41a82d9450e8d9bdee183b1ad181ebf987054
   </ItemGroup>
 
 </Project>

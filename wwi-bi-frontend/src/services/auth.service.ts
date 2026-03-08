@@ -1,9 +1,11 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, tap, catchError, throwError } from 'rxjs';
+import { Observable, from, tap, catchError, throwError, switchMap } from 'rxjs';
+import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
+import { firebaseAuth } from '../app/firebase';
 import { environment } from '../environments/environment';
-import { LoginRequest, RegisterRequest, AuthResponse, User, ApiResponse } from '../models/models';
+import { AuthResponse, User } from '../models/models';
 
 @Injectable({
   providedIn: 'root'
@@ -11,48 +13,55 @@ import { LoginRequest, RegisterRequest, AuthResponse, User, ApiResponse } from '
 export class AuthService {
   private readonly TOKEN_KEY = 'wwi_bi_token';
   private readonly USER_KEY = 'wwi_bi_user';
-  
+
   private currentUserSignal = signal<User | null>(this.loadUserFromStorage());
-  
+
   readonly currentUser = this.currentUserSignal.asReadonly();
   readonly isAdmin = computed(() => this.currentUserSignal()?.role === 'Admin');
 
   constructor(
     private http: HttpClient,
     private router: Router
-  ) {}
-
-  login(credentials: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${environment.apiUrl}/auth/login`, credentials)
-      .pipe(
-        tap(response => {
-          if (response.success && response.token && response.user) {
-            this.setSession(response.token, response.user);
-          }
-        }),
-        catchError(error => {
-          console.error('Login error:', error);
-          return throwError(() => error);
-        })
-      );
+  ) {
+    // Listen for Firebase auth state changes to keep token fresh
+    onAuthStateChanged(firebaseAuth, async (fbUser) => {
+      if (fbUser) {
+        const token = await fbUser.getIdToken();
+        localStorage.setItem(this.TOKEN_KEY, token);
+      }
+    });
   }
 
-  register(data: RegisterRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${environment.apiUrl}/auth/register`, data)
-      .pipe(
-        tap(response => {
-          if (response.success && response.token && response.user) {
-            this.setSession(response.token, response.user);
-          }
-        }),
-        catchError(error => {
-          console.error('Registration error:', error);
-          return throwError(() => error);
-        })
-      );
+  login(credentials: { username: string; password: string }): Observable<AuthResponse> {
+    // Sign in with Firebase using email (username field is used as email)
+    return from(signInWithEmailAndPassword(firebaseAuth, credentials.username, credentials.password)).pipe(
+      switchMap(async (userCredential) => {
+        const idToken = await userCredential.user.getIdToken();
+        return idToken;
+      }),
+      switchMap((idToken: string) => {
+        // Send Firebase ID token to backend for verification and role mapping
+        return this.http.post<AuthResponse>(`${environment.apiUrl}/auth/login`, { idToken });
+      }),
+      tap(response => {
+        if (response.success && response.token && response.user) {
+          this.setSession(response.token, response.user);
+        }
+      }),
+      catchError(error => {
+        console.error('Login error:', error);
+        // Map Firebase error codes to user-friendly messages
+        const firebaseMessage = this.mapFirebaseError(error?.code);
+        if (firebaseMessage) {
+          return throwError(() => ({ error: { message: firebaseMessage } }));
+        }
+        return throwError(() => error);
+      })
+    );
   }
 
   logout(): void {
+    signOut(firebaseAuth).catch(() => {});
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.USER_KEY);
     this.currentUserSignal.set(null);
@@ -66,8 +75,7 @@ export class AuthService {
   isAuthenticated(): boolean {
     const token = this.getToken();
     if (!token) return false;
-    
-    // Check if token is expired
+
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
       const expiry = payload.exp * 1000;
@@ -81,8 +89,8 @@ export class AuthService {
     return this.currentUserSignal()?.role === role;
   }
 
-  getCurrentUser(): Observable<ApiResponse<User>> {
-    return this.http.get<ApiResponse<User>>(`${environment.apiUrl}/auth/me`);
+  getCurrentUser(): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/auth/me`);
   }
 
   private setSession(token: string, user: User): void {
@@ -101,5 +109,18 @@ export class AuthService {
       }
     }
     return null;
+  }
+
+  private mapFirebaseError(code: string | undefined): string | null {
+    if (!code) return null;
+    const map: Record<string, string> = {
+      'auth/user-not-found': 'No account found with this email',
+      'auth/wrong-password': 'Invalid password',
+      'auth/invalid-email': 'Invalid email address',
+      'auth/user-disabled': 'Account has been disabled',
+      'auth/too-many-requests': 'Too many attempts. Try again later.',
+      'auth/invalid-credential': 'Invalid email or password'
+    };
+    return map[code] || null;
   }
 }

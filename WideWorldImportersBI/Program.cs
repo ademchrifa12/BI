@@ -1,8 +1,12 @@
 using System.Text;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using WideWorldImportersBI;
 using WideWorldImportersBI.Data.DataWarehouse;
 using WideWorldImportersBI.Data.Oltp;
 using WideWorldImportersBI.Repositories.Implementations;
@@ -50,6 +54,7 @@ builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 // Register business logic services
 
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserManagementService, UserManagementService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
@@ -58,49 +63,55 @@ builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
 builder.Services.AddScoped<IDwAnalyticsService, DwAnalyticsService>();
 
 // =============================================================================
+// FIREBASE INITIALIZATION
+// =============================================================================
+
+var firebaseCredPath = Path.Combine(AppContext.BaseDirectory, "firebase-service-account.json");
+if (File.Exists(firebaseCredPath))
+{
+    FirebaseApp.Create(new AppOptions
+    {
+        Credential = GoogleCredential.FromFile(firebaseCredPath),
+        ProjectId = builder.Configuration["Firebase:ProjectId"]
+    });
+}
+else if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS")))
+{
+    FirebaseApp.Create(new AppOptions
+    {
+        ProjectId = builder.Configuration["Firebase:ProjectId"]
+    });
+}
+else
+{
+    // No Firebase credentials available — Firebase Admin SDK features (user creation/deletion) won't work.
+    // The app will still start, and Firebase Auth token validation via JwtBearer middleware will work
+    // as long as the frontend sends valid Firebase ID tokens.
+    Console.WriteLine("WARNING: No Firebase service account found. Firebase Admin features disabled.");
+}
+
+// =============================================================================
 // JWT AUTHENTICATION CONFIGURATION
 // =============================================================================
-// Configure JWT Bearer authentication with role-based authorization
+// Backend generates its own JWT after Firebase login verification.
+// This JWT contains role claims and is validated locally (no external key fetch needed).
 
-var jwtKey = builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key not configured");
-var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? throw new InvalidOperationException("JWT Issuer not configured");
-var jwtAudience = builder.Configuration["Jwt:Audience"] ?? throw new InvalidOperationException("JWT Audience not configured");
+var jwtKey = builder.Configuration["Jwt:Key"] ?? "YourSuperSecretKeyForJWTAuthenticationMustBeAtLeast32CharactersLong!";
+var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "WideWorldImportersBI";
+var jwtAudience = builder.Configuration["Jwt:Audience"] ?? "WideWorldImportersBI.Client";
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-})
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
+        ValidIssuer = jwtIssuer,
         ValidateAudience = true,
+        ValidAudience = jwtAudience,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = jwtIssuer,
-        ValidAudience = jwtAudience,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
-        ClockSkew = TimeSpan.Zero // No tolerance for token expiration
-    };
-
-    options.Events = new JwtBearerEvents
-    {
-        OnAuthenticationFailed = context =>
-        {
-            var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<Program>>();
-            logger.LogWarning("Authentication failed: {Error}", context.Exception.Message);
-            return Task.CompletedTask;
-        },
-        OnTokenValidated = context =>
-        {
-            var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<Program>>();
-            var username = context.Principal?.Identity?.Name;
-            logger.LogDebug("Token validated for user: {Username}", username);
-            return Task.CompletedTask;
-        }
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
     };
 });
 
@@ -312,11 +323,18 @@ using (var scope = app.Services.CreateScope())
                           [FirstName] NVARCHAR(100) NOT NULL,
                           [LastName] NVARCHAR(100) NOT NULL,
                           [IsActive] BIT NOT NULL DEFAULT 1,
+                          [FirebaseUid] NVARCHAR(128) NULL,
                           [RoleID] INT NOT NULL,
                           [CreatedAt] DATETIME2 NOT NULL,
                           [LastLoginAt] DATETIME2,
                           CONSTRAINT [FK_BiUsers_BiRoles] FOREIGN KEY ([RoleID]) REFERENCES [Application].[BiRoles]([RoleID])
                       )"
+                );
+                
+                // Add FirebaseUid column if not exists (migration for existing tables)
+                await oltpContext.Database.ExecuteSqlRawAsync(
+                    @"IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID('[Application].[BiUsers]') AND name = 'FirebaseUid')
+                      ALTER TABLE [Application].[BiUsers] ADD [FirebaseUid] NVARCHAR(128) NULL"
                 );
                 
                 logger.LogInformation("Tables created successfully");
