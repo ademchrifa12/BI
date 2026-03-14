@@ -1,0 +1,83 @@
+{
+  "info": {
+    "name": "WWI BI API - Test Integration",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth - Me",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_token}}"
+          }
+        ],
+        "url": "{{api_base}}/auth/me"
+      }
+    },
+    {
+      "name": "Customers - List",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_token}}"
+          }
+        ],
+        "url": "{{api_base}}/customers?page=1&pageSize=10"
+      }
+    },
+    {
+      "name": "Users - Admin only",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_token}}"
+          }
+        ],
+        "url": "{{api_base}}/users"
+      }
+    },
+    {
+      "name": "Analytics - KPIs",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_token}}"
+          }
+        ],
+        "url": "{{api_base}}/analytics/kpis"
+      }
+    },
+    {
+      "name": "Dashboard DW - KPIs",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_token}}"
+          }
+        ],
+        "url": "{{api_base}}/dashboard/kpis"
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "api_base",
+      "value": "http://localhost:5000/api"
+    },
+    {
+      "key": "jwt_token",
+      "value": ""
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="67c53585-8275-491b-a905-89ecec847c82" name="Admin@DESKTOP-CHFH4NJ 2026-03-14 00:17:15" runUser="DESKTOP-CHFH4NJ\Admin" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-03-14T00:17:15.8610266+01:00" queuing="2026-03-14T00:17:15.8610270+01:00" start="2026-03-14T00:17:14.9766486+01:00" finish="2026-03-14T00:17:15.8975601+01:00" />
+  <TestSettings name="default" id="174bf935-ca79-4286-8568-9748a48a719b">
+    <Deployment runDeploymentRoot="Admin_DESKTOP-CHFH4NJ_2026-03-14_00_17_15" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="eef62859-b5a5-402f-8b2c-9343722ba178" testId="0facc9fd-64ac-bae2-d368-679e2131276b" testName="WideWorldImportersBI.Tests.Controllers.UsersControllerTests.GetById_NotFound_ReturnsNotFound" computerName="DESKTOP-CHFH4NJ" duration="00:00:00.0020604" startTime="2026-03-14T00:17:15.7808835+01:00" endTime="2026-03-14T00:17:15.7808836+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="eef62859-b5a5-402f-8b2c-9343722ba178" />
+    <UnitTestResult executionId="e9a7ad90-ed20-412e-821c-44f96c011ceb" testId="36091ecf-5e17-4ad0-0729-c5e67db37823" testName="WideWorldImportersBI.Tests.Controllers.UsersControllerTests.Create_ServiceValidationError_ReturnsBadRequest" computerName="DESKTOP-CHFH4NJ" duration="00:00:00.0874318" startTime="2026-03-14T00:17:15.7761120+01:00" endTime="2026-03-14T00:17:15.7761463+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e9a7ad90-ed20-412e-821c-44f96c011ceb" />
+    <UnitTestResult executionId="32826c67-2fb4-4921-8596-6e154849ccfd" testId="328a76cf-1a88-d6f5-bef1-2183fe2ff08f" testName="WideWorldImportersBI.Tests.Controllers.UsersControllerTests.Delete_WhenDeleted_ReturnsNoContent" computerName="DESKTOP-CHFH4NJ" duration="00:00:00.0026516" startTime="2026-03-14T00:17:15.7816215+01:00" endTime="2026-03-14T00:17:15.7816215+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="32826c67-2fb4-4921-8596-6e154849ccfd" />
+    <UnitTestResult executionId="dfd824c3-a364-4907-a67c-c243368c4121" testId="9f2536c6-64dd-e8e1-7076-f13c78ca3093" testName="WideWorldImportersBI.Tests.Controllers.AuthControllerTests.GetCurrentUser_ValidUser_ReturnsOk" computerName="DESKTOP-CHFH4NJ" duration="00:00:00.0026657" startTime="2026-03-14T00:17:15.8170759+01:00" endTime="2026-03-14T00:17:15.8170761+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dfd824c3-a364-4907-a67c-c243368c4121" />
+    <UnitTestResult executionId="31a16b71-8a99-4670-9b0d-efecf1ee8c8a" testId="7eb5de19-486c-33e3-3eb6-a3d5a6830359" testName="WideWorldImportersBI.Tests.Controllers.CustomersControllerTests.GetAll_ReturnsOk_WithPaginatedPayload" computerName="DESKTOP-CHFH4NJ" duration="00:00:00.0063987" startTime="2026-03-14T00:17:15.7822876+01:00" endTime="2026-03-14T00:17:15.7822879+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="31a16b71-8a99-4670-9b0d-efecf1ee8c8a" />
+    <UnitTestResult executionId="f4b56f5f-e38f-480c-ae47-f42253578dbb" testId="91b6a4af-22a1-b43c-a189-b623dec1b93f" testName="WideWorldImportersBI.Tests.Controllers.CustomersControllerTests.GetById_NotFound_ReturnsNotFound" computerName="DESKTOP-CHFH4NJ" duration="00:00:00.0025598" startTime="2026-03-14T00:17:15.8175752+01:00" endTime="2026-03-14T00:17:15.8175753+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f4b56f5f-e38f-480c-ae47-f42253578dbb" />
+    <UnitTestResult executionId="13853417-c50e-408d-8a66-65143e310e99" testId="758c021a-ffa5-f719-7109-509eb8355025" testName="WideWorldImportersBI.Tests.Controllers.AuthControllerTests.Login_EmptyToken_ReturnsBadRequest" computerName="DESKTOP-CHFH4NJ" duration="00:00:00.0005862" startTime="2026-03-14T00:17:15.7815502+01:00" endTime="2026-03-14T00:17:15.7815502+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="13853417-c50e-408d-8a66-65143e310e99" />
+    <UnitTestResult executionId="efe88cd4-99b1-432b-bd55-8fb11661d5ab" testId="1f20b0e2-5ec9-8af1-d917-3fd18efcadb0" testName="WideWorldImportersBI.Tests.Controllers.AuthControllerTests.GetCurrentUser_InvalidClaim_ReturnsUnauthorized" computerName="DESKTOP-CHFH4NJ" duration="00:00:00.0032128" startTime="2026-03-14T00:17:15.7814710+01:00" endTime="2026-03-14T00:17:15.7814711+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="efe88cd4-99b1-432b-bd55-8fb11661d5ab" />
+    <UnitTestResult executionId="3cb3581b-af45-4fdf-9031-cacad0afa3e0" testId="0ccb9ec4-9918-d060-0c65-850e1c66bfc4" testName="WideWorldImportersBI.Tests.Controllers.CustomersControllerTests.Search_EmptyTerm_ReturnsBadRequest" computerName="DESKTOP-CHFH4NJ" duration="00:00:00.0011700" startTime="2026-03-14T00:17:15.8176261+01:00" endTime="2026-03-14T00:17:15.8176261+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3cb3581b-af45-4fdf-9031-cacad0afa3e0" />
+    <UnitTestResult executionId="b6d1a59b-f6eb-4e77-8a2b-5b76439b71b1" testId="600932a5-0870-4a7a-131b-734454dee417" testName="WideWorldImportersBI.Tests.Controllers.CustomersControllerTests.Delete_WhenServiceReturnsFalse_ReturnsBadRequest" computerName="DESKTOP-CHFH4NJ" duration="00:00:00.0921266" startTime="2026-03-14T00:17:15.7792072+01:00" endTime="2026-03-14T00:17:15.7792074+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b6d1a59b-f6eb-4e77-8a2b-5b76439b71b1" />
+    <UnitTestResult executionId="40f49acd-ca28-4555-82d0-5c7035de59aa" testId="b94a0b3f-48aa-7e50-dde6-abf464021adb" testName="WideWorldImportersBI.Tests.Controllers.AuthControllerTests.Login_InvalidToken_ReturnsUnauthorized" computerName="DESKTOP-CHFH4NJ" duration="00:00:00.0928007" startTime="2026-03-14T00:17:15.7795789+01:00" endTime="2026-03-14T00:17:15.7795790+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="40f49acd-ca28-4555-82d0-5c7035de59aa" />
+    <UnitTestResult executionId="38d40358-dbf1-46f1-9a64-ae896afeecc4" testId="1ed01647-216c-5752-a92c-e288d49ef022" testName="WideWorldImportersBI.Tests.Controllers.AuthControllerTests.GetCurrentUser_UserNotFound_ReturnsNotFound" computerName="DESKTOP-CHFH4NJ" duration="00:00:00.0009912" startTime="2026-03-14T00:17:15.8175156+01:00" endTime="2026-03-14T00:17:15.8175159+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="38d40358-dbf1-46f1-9a64-ae896afeecc4" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="WideWorldImportersBI.Tests.Controllers.UsersControllerTests.Create_ServiceValidationError_ReturnsBadRequest" storage="d:\mahdi-adem-v2\bi\wideworldimportersbi.tests\bin\debug\net8.0\wideworldimportersbi.tests.dll" id="36091ecf-5e17-4ad0-0729-c5e67db37823">
+      <Execution id="e9a7ad90-ed20-412e-821c-44f96c011ceb" />
+      <TestMethod codeBase="D:\mahdi-adem-v2\BI\WideWorldImportersBI.Tests\bin\Debug\net8.0\WideWorldImportersBI.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="WideWorldImportersBI.Tests.Controllers.UsersControllerTests" name="Create_ServiceValidationError_ReturnsBadRequest" />
+    </UnitTest>
+    <UnitTest name="WideWorldImportersBI.Tests.Controllers.CustomersControllerTests.GetById_NotFound_ReturnsNotFound" storage="d:\mahdi-adem-v2\bi\wideworldimportersbi.tests\bin\debug\net8.0\wideworldimportersbi.tests.dll" id="91b6a4af-22a1-b43c-a189-b623dec1b93f">
+      <Execution id="f4b56f5f-e38f-480c-ae47-f42253578dbb" />
+      <TestMethod codeBase="D:\mahdi-adem-v2\BI\WideWorldImportersBI.Tests\bin\Debug\net8.0\WideWorldImportersBI.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="WideWorldImportersBI.Tests.Controllers.CustomersControllerTests" name="GetById_NotFound_ReturnsNotFound" />
+    </UnitTest>
+    <UnitTest name="WideWorldImportersBI.Tests.Controllers.CustomersControllerTests.GetAll_ReturnsOk_WithPaginatedPayload" storage="d:\mahdi-adem-v2\bi\wideworldimportersbi.tests\bin\debug\net8.0\wideworldimportersbi.tests.dll" id="7eb5de19-486c-33e3-3eb6-a3d5a6830359">
+      <Execution id="31a16b71-8a99-4670-9b0d-efecf1ee8c8a" />
+      <TestMethod codeBase="D:\mahdi-adem-v2\BI\WideWorldImportersBI.Tests\bin\Debug\net8.0\WideWorldImportersBI.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="WideWorldImportersBI.Tests.Controllers.CustomersControllerTests" name="GetAll_ReturnsOk_WithPaginatedPayload" />
+    </UnitTest>
+    <UnitTest name="WideWorldImportersBI.Tests.Controllers.AuthControllerTests.Login_EmptyToken_ReturnsBadRequest" storage="d:\mahdi-adem-v2\bi\wideworldimportersbi.tests\bin\debug\net8.0\wideworldimportersbi.tests.dll" id="758c021a-ffa5-f719-7109-509eb8355025">
+      <Execution id="13853417-c50e-408d-8a66-65143e310e99" />
+      <TestMethod codeBase="D:\mahdi-adem-v2\BI\WideWorldImportersBI.Tests\bin\Debug\net8.0\WideWorldImportersBI.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="WideWorldImportersBI.Tests.Controllers.AuthControllerTests" name="Login_EmptyToken_ReturnsBadRequest" />
+    </UnitTest>
+    <UnitTest name="WideWorldImportersBI.Tests.Controllers.AuthControllerTests.GetCurrentUser_InvalidClaim_ReturnsUnauthorized" storage="d:\mahdi-adem-v2\bi\wideworldimportersbi.tests\bin\debug\net8.0\wideworldimportersbi.tests.dll" id="1f20b0e2-5ec9-8af1-d917-3fd18efcadb0">
+      <Execution id="efe88cd4-99b1-432b-bd55-8fb11661d5ab" />
+      <TestMethod codeBase="D:\mahdi-adem-v2\BI\WideWorldImportersBI.Tests\bin\Debug\net8.0\WideWorldImportersBI.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="WideWorldImportersBI.Tests.Controllers.AuthControllerTests" name="GetCurrentUser_InvalidClaim_ReturnsUnauthorized" />
+    </UnitTest>
+    <UnitTest name="WideWorldImportersBI.Tests.Controllers.UsersControllerTests.GetById_NotFound_ReturnsNotFound" storage="d:\mahdi-adem-v2\bi\wideworldimportersbi.tests\bin\debug\net8.0\wideworldimportersbi.tests.dll" id="0facc9fd-64ac-bae2-d368-679e2131276b">
+      <Execution id="eef62859-b5a5-402f-8b2c-9343722ba178" />
+      <TestMethod codeBase="D:\mahdi-adem-v2\BI\WideWorldImportersBI.Tests\bin\Debug\net8.0\WideWorldImportersBI.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="WideWorldImportersBI.Tests.Controllers.UsersControllerTests" name="GetById_NotFound_ReturnsNotFound" />
+    </UnitTest>
+    <UnitTest name="WideWorldImportersBI.Tests.Controllers.CustomersControllerTests.Search_EmptyTerm_ReturnsBadRequest" storage="d:\mahdi-adem-v2\bi\wideworldimportersbi.tests\bin\debug\net8.0\wideworldimportersbi.tests.dll" id="0ccb9ec4-9918-d060-0c65-850e1c66bfc4">
+      <Execution id="3cb3581b-af45-4fdf-9031-cacad0afa3e0" />
+      <TestMethod codeBase="D:\mahdi-adem-v2\BI\WideWorldImportersBI.Tests\bin\Debug\net8.0\WideWorldImportersBI.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="WideWorldImportersBI.Tests.Controllers.CustomersControllerTests" name="Search_EmptyTerm_ReturnsBadRequest" />
+    </UnitTest>
+    <UnitTest name="WideWorldImportersBI.Tests.Controllers.CustomersControllerTests.Delete_WhenServiceReturnsFalse_ReturnsBadRequest" storage="d:\mahdi-adem-v2\bi\wideworldimportersbi.tests\bin\debug\net8.0\wideworldimportersbi.tests.dll" id="600932a5-0870-4a7a-131b-734454dee417">
+      <Execution id="b6d1a59b-f6eb-4e77-8a2b-5b76439b71b1" />
+      <TestMethod codeBase="D:\mahdi-adem-v2\BI\WideWorldImportersBI.Tests\bin\Debug\net8.0\WideWorldImportersBI.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="WideWorldImportersBI.Tests.Controllers.CustomersControllerTests" name="Delete_WhenServiceReturnsFalse_ReturnsBadRequest" />
+    </UnitTest>
+    <UnitTest name="WideWorldImportersBI.Tests.Controllers.UsersControllerTests.Delete_WhenDeleted_ReturnsNoContent" storage="d:\mahdi-adem-v2\bi\wideworldimportersbi.tests\bin\debug\net8.0\wideworldimportersbi.tests.dll" id="328a76cf-1a88-d6f5-bef1-2183fe2ff08f">
+      <Execution id="32826c67-2fb4-4921-8596-6e154849ccfd" />
+      <TestMethod codeBase="D:\mahdi-adem-v2\BI\WideWorldImportersBI.Tests\bin\Debug\net8.0\WideWorldImportersBI.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="WideWorldImportersBI.Tests.Controllers.UsersControllerTests" name="Delete_WhenDeleted_ReturnsNoContent" />
+    </UnitTest>
+    <UnitTest name="WideWorldImportersBI.Tests.Controllers.AuthControllerTests.GetCurrentUser_ValidUser_ReturnsOk" storage="d:\mahdi-adem-v2\bi\wideworldimportersbi.tests\bin\debug\net8.0\wideworldimportersbi.tests.dll" id="9f2536c6-64dd-e8e1-7076-f13c78ca3093">
+      <Execution id="dfd824c3-a364-4907-a67c-c243368c4121" />
+      <TestMethod codeBase="D:\mahdi-adem-v2\BI\WideWorldImportersBI.Tests\bin\Debug\net8.0\WideWorldImportersBI.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="WideWorldImportersBI.Tests.Controllers.AuthControllerTests" name="GetCurrentUser_ValidUser_ReturnsOk" />
+    </UnitTest>
+    <UnitTest name="WideWorldImportersBI.Tests.Controllers.AuthControllerTests.GetCurrentUser_UserNotFound_ReturnsNotFound" storage="d:\mahdi-adem-v2\bi\wideworldimportersbi.tests\bin\debug\net8.0\wideworldimportersbi.tests.dll" id="1ed01647-216c-5752-a92c-e288d49ef022">
+      <Execution id="38d40358-dbf1-46f1-9a64-ae896afeecc4" />
+      <TestMethod codeBase="D:\mahdi-adem-v2\BI\WideWorldImportersBI.Tests\bin\Debug\net8.0\WideWorldImportersBI.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="WideWorldImportersBI.Tests.Controllers.AuthControllerTests" name="GetCurrentUser_UserNotFound_ReturnsNotFound" />
+    </UnitTest>
+    <UnitTest name="WideWorldImportersBI.Tests.Controllers.AuthControllerTests.Login_InvalidToken_ReturnsUnauthorized" storage="d:\mahdi-adem-v2\bi\wideworldimportersbi.tests\bin\debug\net8.0\wideworldimportersbi.tests.dll" id="b94a0b3f-48aa-7e50-dde6-abf464021adb">
+      <Execution id="40f49acd-ca28-4555-82d0-5c7035de59aa" />
+      <TestMethod codeBase="D:\mahdi-adem-v2\BI\WideWorldImportersBI.Tests\bin\Debug\net8.0\WideWorldImportersBI.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="WideWorldImportersBI.Tests.Controllers.AuthControllerTests" name="Login_InvalidToken_ReturnsUnauthorized" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="0facc9fd-64ac-bae2-d368-679e2131276b" executionId="eef62859-b5a5-402f-8b2c-9343722ba178" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="36091ecf-5e17-4ad0-0729-c5e67db37823" executionId="e9a7ad90-ed20-412e-821c-44f96c011ceb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="328a76cf-1a88-d6f5-bef1-2183fe2ff08f" executionId="32826c67-2fb4-4921-8596-6e154849ccfd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9f2536c6-64dd-e8e1-7076-f13c78ca3093" executionId="dfd824c3-a364-4907-a67c-c243368c4121" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7eb5de19-486c-33e3-3eb6-a3d5a6830359" executionId="31a16b71-8a99-4670-9b0d-efecf1ee8c8a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="91b6a4af-22a1-b43c-a189-b623dec1b93f" executionId="f4b56f5f-e38f-480c-ae47-f42253578dbb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="758c021a-ffa5-f719-7109-509eb8355025" executionId="13853417-c50e-408d-8a66-65143e310e99" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1f20b0e2-5ec9-8af1-d917-3fd18efcadb0" executionId="efe88cd4-99b1-432b-bd55-8fb11661d5ab" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0ccb9ec4-9918-d060-0c65-850e1c66bfc4" executionId="3cb3581b-af45-4fdf-9031-cacad0afa3e0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="600932a5-0870-4a7a-131b-734454dee417" executionId="b6d1a59b-f6eb-4e77-8a2b-5b76439b71b1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b94a0b3f-48aa-7e50-dde6-abf464021adb" executionId="40f49acd-ca28-4555-82d0-5c7035de59aa" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1ed01647-216c-5752-a92c-e288d49ef022" executionId="38d40358-dbf1-46f1-9a64-ae896afeecc4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Les résultats ne figurent pas dans une liste" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="Tous les résultats chargés" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="12" executed="12" passed="12" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 8.0.11)&#xD;
+[xUnit.net 00:00:00.09]   Discovering: WideWorldImportersBI.Tests&#xD;
+[xUnit.net 00:00:00.13]   Discovered:  WideWorldImportersBI.Tests&#xD;
+[xUnit.net 00:00:00.14]   Starting:    WideWorldImportersBI.Tests&#xD;
+[xUnit.net 00:00:00.32]   Finished:    WideWorldImportersBI.Tests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

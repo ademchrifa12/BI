@@ -1,0 +1,3 @@
+﻿"CheckId","CheckType","Endpoint","Method","Expected","Actual","Passed"
+"NF-SEC-01","Security","/users","GET","HTTP 401 or 403 without token","HTTP:401","True"
+"NF-PERF-01","Performance","/auth/me","GET","Average < 800ms and P95 < 1500ms","Average=0.2ms; P95=1ms","True"

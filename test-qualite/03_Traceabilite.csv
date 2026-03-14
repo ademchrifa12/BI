@@ -1,0 +1,14 @@
+ExigenceID,Description,ScenarioID,CasTestID,Automatise,Outil,Resultat,DefautLie
+REQ-AUTH-LOGIN,Authentifier utilisateur avec controle credentials,SC-AUTH-01,TC001,Partiel,pytest+selenium,Not Executed,BLK-ENV-DB
+REQ-AUTH-LOGIN,Refuser mot de passe incorrect,SC-AUTH-02,TC002,Oui,pytest+selenium,Pass,
+REQ-AUTH-ACCESS,Restreindre endpoints admin aux Admin,SC-SEC-01,TC003,Oui,powershell,Pass,
+REQ-CUST-LIST,Lister clients pagines,SC-CUST-01,TC004,Non,Postman/Swagger,Not Executed,BLK-ENV-DB
+REQ-CUST-CRUD,Empêcher suppression client lie,SC-CUST-02,TC005,Non,xUnit (a creer),Not Executed,BLK-SCOPE
+REQ-PROD-SEARCH,Rechercher produit par mot-cle,SC-PROD-01,TC006,Non,Postman/Swagger,Not Executed,BLK-ENV-DB
+REQ-ANALYTICS-KPI,Fournir KPIs dashboard OLTP,SC-ANA-01,TC007,Non,Postman/Swagger,Not Executed,BLK-ENV-DB
+REQ-DW-DASH,Afficher dashboard DW complet,SC-DW-01,TC008,Oui,pytest+selenium,Not Executed,BLK-ENV-DW
+REQ-PERF-API,Maintenir performance API acceptable,SC-NF-01,TC009,Oui,powershell,Pass,
+REQ-REGRESSION-CORE,Preserver parcours critiques,SC-REG-01,TC010,Partiel,checklist manuelle,Not Executed,BLK-ENV-DB
+REQ-AUTH-ACCESS,Gerer claim JWT invalide sur /auth/me,SC-AUTH-03,TC011,Oui,xUnit+Moq,Pass,
+REQ-CUST-CRUD,Retourner 400 si suppression client impossible,SC-CUST-03,TC012,Oui,xUnit+Moq,Pass,
+REQ-USER-ADMIN,Retourner 400 si creation user metier invalide,SC-USER-01,TC013,Oui,xUnit+Moq,Pass,
