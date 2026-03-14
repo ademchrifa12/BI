@@ -11,6 +11,7 @@ Ce dossier contient un kit complet de livrables pour le module Test et Qualite L
 - `04_Rapport_Execution.md` : rapport d'execution
 - `05_Rapport_Final.md` : bilan final (couverture, defauts)
 - `automation/pytest-selenium/` : script d'automatisation systeme (Selenium + pytest)
+- `automation/pytest-selenium/tests/test_add_customer.py` : E2E ajout client + verification + cleanup
 - `automation/nonfunctional_api_checks.ps1` : checks non fonctionnels (securite/performance)
 - `../WideWorldImportersBI.Tests/` : suite de tests unitaires backend (xUnit + Moq)
 - `preuves/` : captures, logs, exports outils

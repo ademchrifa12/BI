@@ -33,6 +33,17 @@ class LoginPage:
         pwd.send_keys(password)
         btn.click()
 
+    def login_and_wait_success(self, username: str, password: str):
+        self.login(username, password)
+
+        WebDriverWait(self.driver, 20).until(
+            lambda d: "/login" not in d.current_url
+        )
+
+    def login_and_wait_error(self, username: str, password: str):
+        self.login(username, password)
+        return self.get_error_text()
+
     def get_error_text(self):
         err = WebDriverWait(self.driver, 15).until(
             EC.visibility_of_element_located(self.error_message)

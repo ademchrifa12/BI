@@ -2,7 +2,7 @@ import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, from, tap, catchError, throwError, switchMap } from 'rxjs';
-import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { firebaseAuth } from '../app/firebase';
 import { environment } from '../environments/environment';
 import { AuthResponse, User } from '../models/models';
@@ -22,15 +22,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router
-  ) {
-    // Listen for Firebase auth state changes to keep token fresh
-    onAuthStateChanged(firebaseAuth, async (fbUser) => {
-      if (fbUser) {
-        const token = await fbUser.getIdToken();
-        localStorage.setItem(this.TOKEN_KEY, token);
-      }
-    });
-  }
+  ) {}
 
   login(credentials: { username: string; password: string }): Observable<AuthResponse> {
     // Sign in with Firebase using email (username field is used as email)

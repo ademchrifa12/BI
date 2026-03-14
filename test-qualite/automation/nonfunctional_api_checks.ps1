@@ -1,6 +1,6 @@
 $ErrorActionPreference = 'Stop'
 
-$baseUrl = "http://localhost:5000/api"
+$baseUrl = if ($env:APP_API_BASE_URL) { $env:APP_API_BASE_URL } else { "https://bi.tunibyte.com/api" }
 $outCsv = "d:\mahdi-adem-v2\BI\test-qualite\resultats\nonfunctional_api_checks.csv"
 $outMd = "d:\mahdi-adem-v2\BI\test-qualite\resultats\nonfunctional_api_checks.md"
 

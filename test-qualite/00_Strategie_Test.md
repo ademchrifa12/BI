@@ -47,11 +47,10 @@ Le SUT est l'application BI composee:
 
 ## 6. Environnements
 
-- Local dev:
-  - Front: `http://localhost:4200`
-  - API: `http://localhost:5000/api`
-- Production cible:
-  - Front/API via `https://bi.tunibyte.com`
+- Environnement de test utilise: **Production hebergee**
+  - Front: `https://bi.tunibyte.com`
+  - API: `https://bi.tunibyte.com/api`
+- Acces: compte de test `admin@wideworldimporters.com`
 
 ## 7. Entrees / sorties
 

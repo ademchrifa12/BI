@@ -6,7 +6,7 @@ from selenium.webdriver.chrome.options import Options
 
 @pytest.fixture(scope="session")
 def base_url():
-    return os.getenv("APP_BASE_URL", "http://localhost:4200")
+    return os.getenv("APP_BASE_URL", "https://bi.tunibyte.com")
 
 
 @pytest.fixture(scope="session")

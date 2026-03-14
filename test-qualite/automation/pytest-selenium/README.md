@@ -3,13 +3,14 @@
 ## Cas automatise
 
 - TC002: connexion avec mot de passe incorrect
+- TC014: ajout client + verification + suppression (cleanup)
 
 ## Prerequis
 
 - Python 3.10+
 - Google Chrome
 - ChromeDriver compatible (via PATH)
-- Application frontend en execution (`http://localhost:4200` par defaut)
+- Application frontend en execution (`https://bi.tunibyte.com` par defaut)
 
 ## Installation
 
@@ -31,6 +32,14 @@ Avec URL custom:
 ```powershell
 $env:APP_BASE_URL="http://localhost:4200"
 pytest
+```
+
+Pour le test d'ajout client (compte Admin requis):
+
+```powershell
+$env:TEST_USER_EMAIL="admin@wideworldimporters.com"
+$env:TEST_USER_PASSWORD="<votre-mot-de-passe>"
+pytest tests\test_add_customer.py -s
 ```
 
 Mode headless:

@@ -12,3 +12,4 @@ REQ-REGRESSION-CORE,Preserver parcours critiques,SC-REG-01,TC010,Partiel,checkli
 REQ-AUTH-ACCESS,Gerer claim JWT invalide sur /auth/me,SC-AUTH-03,TC011,Oui,xUnit+Moq,Pass,
 REQ-CUST-CRUD,Retourner 400 si suppression client impossible,SC-CUST-03,TC012,Oui,xUnit+Moq,Pass,
 REQ-USER-ADMIN,Retourner 400 si creation user metier invalide,SC-USER-01,TC013,Oui,xUnit+Moq,Pass,
+REQ-CUST-CRUD,Ajouter client via UI puis verifier persistence,SC-CUST-04,TC014,Oui,pytest+selenium,Not Executed,BLK-CRED-ADMIN
