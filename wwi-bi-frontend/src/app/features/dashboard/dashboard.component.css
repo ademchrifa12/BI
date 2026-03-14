@@ -12,19 +12,20 @@
     }
     
     .kpi-card {
-      background: white;
-      border-radius: 16px;
-      padding: 1.5rem;
+      border-radius: 16px !important;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .kpi-card mat-card-content {
       display: flex;
       align-items: center;
       gap: 1rem;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      padding: 1.5rem;
     }
     
     .kpi-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15) !important;
     }
     
     .kpi-icon {
@@ -71,28 +72,24 @@
     }
     
     .chart-card {
-      background: white;
-      border-radius: 16px;
-      padding: 1.5rem;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      border-radius: 16px !important;
     }
     
     .chart-card.full-width {
       grid-column: 1 / -1;
     }
     
-    .card-header {
-      margin-bottom: 1.5rem;
+    .chart-card mat-card-header {
+      margin-bottom: 1rem;
     }
     
-    .card-title {
+    .chart-card mat-card-title {
       font-size: 1.125rem;
       font-weight: 600;
       color: #212121;
-      margin: 0 0 0.25rem;
     }
     
-    .card-subtitle {
+    .chart-card mat-card-subtitle {
       font-size: 0.875rem;
       color: #757575;
     }
