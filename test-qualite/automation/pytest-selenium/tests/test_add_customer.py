@@ -8,8 +8,8 @@ from pages.customers_page import CustomersPage
 
 @pytest.mark.e2e
 def test_add_customer_and_verify_then_cleanup(browser, base_url):
-    username = os.getenv("TEST_USER_EMAIL")
-    password = os.getenv("TEST_USER_PASSWORD")
+    username = "admin@wideworldimporters.com"
+    password = "Admin@123"
 
     if not username or not password:
         pytest.skip("TEST_USER_EMAIL and TEST_USER_PASSWORD are required for add-customer test")
@@ -18,11 +18,11 @@ def test_add_customer_and_verify_then_cleanup(browser, base_url):
     customer_name = f"AUTO_CUST_{unique_suffix}"
     customer_email = f"auto{unique_suffix}@example.com"
 
-    login_page = LoginPage(browser, base_url)
+    login_page = LoginPage(browser, 'https://bi.tunibyte.com')
     login_page.open()
     login_page.login_and_wait_success(username, password)
 
-    customers_page = CustomersPage(browser, base_url)
+    customers_page = CustomersPage(browser, 'https://bi.tunibyte.com')
     customers_page.open()
 
     assert customers_page.can_add_customer(), (

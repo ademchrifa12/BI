@@ -1,73 +1,359 @@
 {
   "info": {
-    "name": "WWI BI API - Test Integration",
+    "_postman_id": "4e1ced13-f5cf-4cb3-9128-2ce5773661df",
+    "name": "WWI BI API - Integration and Non-Functional",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{jwt_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "const threshold = Number(pm.variables.get('max_response_time_ms') || 1500);",
+          "pm.variables.set('max_response_time_ms', threshold);"
+        ]
+      }
+    }
+  ],
   "item": [
     {
-      "name": "Auth - Me",
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{jwt_token}}"
-          }
-        ],
-        "url": "{{api_base}}/auth/me"
-      }
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Auth - Login (Firebase)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 200 or 401', function () {",
+                  "  pm.expect([200, 401]).to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "pm.test('Response time under threshold', function () {",
+                  "  const threshold = Number(pm.variables.get('max_response_time_ms') || 1500);",
+                  "  pm.expect(pm.response.responseTime).to.be.below(threshold);",
+                  "});",
+                  "",
+                  "let body = {};",
+                  "try { body = pm.response.json(); } catch (e) { body = {}; }",
+                  "",
+                  "if (pm.response.code === 200 && body && body.token) {",
+                  "  pm.collectionVariables.set('jwt_token', body.token);",
+                  "}",
+                  "",
+                  "pm.test('When 200, response contains success and token', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(body).to.have.property('success');",
+                  "    pm.expect(body.success).to.eql(true);",
+                  "    pm.expect(body).to.have.property('token');",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idToken\": \"{{firebase_id_token}}\"\n}"
+            },
+            "url": {
+              "raw": "{{api_base}}/auth/login",
+              "host": [
+                "{{api_base}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Auth - Me",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response time under threshold', function () {",
+                  "  const threshold = Number(pm.variables.get('max_response_time_ms') || 1500);",
+                  "  pm.expect(pm.response.responseTime).to.be.below(threshold);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "pm.test('Has expected ApiResponse shape', function () {",
+                  "  pm.expect(body).to.have.property('success');",
+                  "  pm.expect(body.success).to.eql(true);",
+                  "  pm.expect(body).to.have.property('data');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{api_base}}/auth/me",
+              "host": [
+                "{{api_base}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     },
     {
-      "name": "Customers - List",
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{jwt_token}}"
-          }
-        ],
-        "url": "{{api_base}}/customers?page=1&pageSize=10"
-      }
+      "name": "Security",
+      "item": [
+        {
+          "name": "Users - Without Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 401 or 403 without token', function () {",
+                  "  pm.expect([401, 403]).to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "pm.test('Response time under threshold', function () {",
+                  "  const threshold = Number(pm.variables.get('max_response_time_ms') || 1500);",
+                  "  pm.expect(pm.response.responseTime).to.be.below(threshold);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{api_base}}/users",
+              "host": [
+                "{{api_base}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     },
     {
-      "name": "Users - Admin only",
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{jwt_token}}"
-          }
-        ],
-        "url": "{{api_base}}/users"
-      }
-    },
-    {
-      "name": "Analytics - KPIs",
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{jwt_token}}"
-          }
-        ],
-        "url": "{{api_base}}/analytics/kpis"
-      }
-    },
-    {
-      "name": "Dashboard DW - KPIs",
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{jwt_token}}"
-          }
-        ],
-        "url": "{{api_base}}/dashboard/kpis"
-      }
+      "name": "Business APIs",
+      "item": [
+        {
+          "name": "Customers - List",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response time under threshold', function () {",
+                  "  const threshold = Number(pm.variables.get('max_response_time_ms') || 1500);",
+                  "  pm.expect(pm.response.responseTime).to.be.below(threshold);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "pm.test('Pagination shape exists', function () {",
+                  "  pm.expect(body).to.have.property('items');",
+                  "  pm.expect(body).to.have.property('totalCount');",
+                  "  pm.expect(body.items).to.be.an('array');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{api_base}}/customers?page=1&pageSize=10",
+              "host": [
+                "{{api_base}}"
+              ],
+              "path": [
+                "customers"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Users - Admin only",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 200 for admin token', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response time under threshold', function () {",
+                  "  const threshold = Number(pm.variables.get('max_response_time_ms') || 1500);",
+                  "  pm.expect(pm.response.responseTime).to.be.below(threshold);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "pm.test('Users payload is array', function () {",
+                  "  pm.expect(body).to.be.an('array');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{api_base}}/users",
+              "host": [
+                "{{api_base}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Analytics - KPIs",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response time under threshold', function () {",
+                  "  const threshold = Number(pm.variables.get('max_response_time_ms') || 1500);",
+                  "  pm.expect(pm.response.responseTime).to.be.below(threshold);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "pm.test('ApiResponse success with data', function () {",
+                  "  pm.expect(body).to.have.property('success');",
+                  "  pm.expect(body.success).to.eql(true);",
+                  "  pm.expect(body).to.have.property('data');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{api_base}}/analytics/kpis",
+              "host": [
+                "{{api_base}}"
+              ],
+              "path": [
+                "analytics",
+                "kpis"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Dashboard DW - KPIs",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response time under threshold', function () {",
+                  "  const threshold = Number(pm.variables.get('max_response_time_ms') || 1500);",
+                  "  pm.expect(pm.response.responseTime).to.be.below(threshold);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "pm.test('ApiResponse success with data', function () {",
+                  "  pm.expect(body).to.have.property('success');",
+                  "  pm.expect(body.success).to.eql(true);",
+                  "  pm.expect(body).to.have.property('data');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{api_base}}/dashboard/kpis",
+              "host": [
+                "{{api_base}}"
+              ],
+              "path": [
+                "dashboard",
+                "kpis"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "variable": [
@@ -78,6 +364,14 @@
     {
       "key": "jwt_token",
       "value": ""
+    },
+    {
+      "key": "firebase_id_token",
+      "value": ""
+    },
+    {
+      "key": "max_response_time_ms",
+      "value": "1500"
     }
   ]
 }
