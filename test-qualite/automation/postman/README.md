@@ -6,7 +6,7 @@
 
 ## Variables a definir
 
-- `api_base` : ex `http://localhost:5000/api`
+- `api_base` : ex `https://bi.tunibyte.com/api`
 - `jwt_token` : token JWT local obtenu apres login
 
 ## Usage

@@ -16,12 +16,15 @@ class LoginPage:
 
     def open(self):
         self.driver.get(f"{self.base_url}/login")
-        WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located(self.submit_button)
+        # Hosted page load can be slower; ensure full login form is present.
+        WebDriverWait(self.driver, 25).until(
+            lambda d: len(d.find_elements(*self.submit_button)) > 0
+            and len(d.find_elements(*self.email_input)) > 0
+            and len(d.find_elements(*self.password_input)) > 0
         )
 
     def login(self, username: str, password: str):
-        email = WebDriverWait(self.driver, 10).until(
+        email = WebDriverWait(self.driver, 20).until(
             EC.presence_of_element_located(self.email_input)
         )
         pwd = self.driver.find_element(*self.password_input)

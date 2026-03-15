@@ -30,7 +30,7 @@ pytest
 Avec URL custom:
 
 ```powershell
-$env:APP_BASE_URL="http://localhost:4200"
+$env:APP_BASE_URL="https://bi.tunibyte.com"
 pytest
 ```
 

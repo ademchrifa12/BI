@@ -3,6 +3,10 @@ from pages.login_page import LoginPage
 
 def test_login_invalid_password_shows_error(browser, base_url):
     # TC002 - Systeme/Fonctionnel
+    browser.delete_all_cookies()
+    browser.get(base_url)
+    browser.execute_script("window.localStorage.clear(); window.sessionStorage.clear();")
+
     page = LoginPage(browser, base_url)
     page.open()
 
